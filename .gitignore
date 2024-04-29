@@ -1,0 +1,11 @@
+*.log
+.venv
+.vscode
+*.pyc
+__pycache__
+py39_env
+py310_env
+py311_env
+py312_env
+**/images/rl
+*.xlsx
