@@ -10,3 +10,4 @@ py312_env
 **/images/rl
 *.xlsx
 **/models/model_*
+marl/configs/sumo/main_road_vehicles.rou.xml

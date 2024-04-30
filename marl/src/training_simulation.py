@@ -5,7 +5,7 @@ import timeit
 import os
 
 class Simulation:
-    def __init__(self, Model, Memory, TrafficGen, gamma, max_steps, sumo_cmd, num_states, num_actions, training_epochs):
+    def __init__(self, Model, Memory, TrafficGen, gamma, max_steps, sumo_cmd, num_states, num_actions, training_epochs, num_episodes):
         self._Model = Model
         self._Memory = Memory
         self._TrafficGen = TrafficGen
@@ -19,9 +19,10 @@ class Simulation:
         self._cumulative_wait_store = []
         self._avg_queue_length_store = []
         self._training_epochs = training_epochs
+        self._num_episodes = num_episodes
 
 
-    def run(self, episode, epsilon):
+    def run(self, episode):
         """
         Runs an episode of simulation, then starts a training session
         """
@@ -41,6 +42,8 @@ class Simulation:
         old_total_wait = 0
         old_state = -1
         old_action = -1
+
+        epsilon = 1.0 - (episode / self._num_episodes)  # set the epsilon for this episode according to epsilon-greedy policy
 
         while self._step < self._max_steps:
 

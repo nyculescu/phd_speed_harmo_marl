@@ -20,14 +20,17 @@ if __name__ == "__main__":
     path = set_train_path(config['models_path_name'])
 
     model = TrainModel(
-        config['num_layers'], 
-        config['width_layers'], 
-        config['batch_size'], 
-        config['learning_rate'], 
+        config['num_layers'], # number of layers of the NN
+        config['width_layers'], # number of neurons in each layer of the NN
+        config['batch_size'], # number of training examples used in one iteration
+        config['learning_rate'], # influences the speed and quality of learning. A lower learning_rate might slow down the learning process but can lead to more precise adjustments in the agent's strategy.
         input_dim=config['num_states'], 
         output_dim=config['num_actions']
     )
 
+    """
+    The limits of the memory used for storing past experiences 
+    (used in experience replay, a method to re-use past learning episodes to improve learning efficiency)."""
     memory = Memory(
         config['memory_size_max'], 
         config['memory_size_min']
@@ -52,7 +55,8 @@ if __name__ == "__main__":
         sumo_cmd,
         config['num_states'], #  the size of the state of the env from the agent perspective (a change here also requires algorithm changes).
         config['num_actions'], # the number of possible actions (a change here also requires algorithm changes).
-        config['training_epochs'] # the number of training iterations executed at the end of each episode.
+        config['training_epochs'], # the number of training iterations executed at the end of each episode.
+        config['total_episodes'] # number of episodes (or trials) the agent will undergo during training
     )
     
     episode = 0
@@ -60,11 +64,12 @@ if __name__ == "__main__":
     
     while episode < config['total_episodes']:
         print('\n----- Episode', str(episode+1), 'of', str(config['total_episodes']))
-        epsilon = 1.0 - (episode / config['total_episodes'])  # set the epsilon for this episode according to epsilon-greedy policy
-        simulation_time, training_time = simulation.run(episode, epsilon)  # run the simulation
-        print('Simulation time:', simulation_time, 's - Training time:', training_time, 's - Total:', round(simulation_time+training_time, 1), 's')
+        
+        simulation_time, training_time = simulation.run(episode)  # run the simulation
+        
         episode += 1
         winsound.Beep(440, 700)
+        print('Simulation time:', simulation_time, 's - Training time:', training_time, 's - Total:', round(simulation_time+training_time, 1), 's')
 
     print("\n----- Start time:", timestamp_start)
     print("----- End time:", datetime.datetime.now())
