@@ -4,17 +4,6 @@ import random
 import timeit
 import os
 
-# phase codes based on environment.net.xml
-PHASE_NS_GREEN = 0  # action 0 code 00
-PHASE_NS_YELLOW = 1
-PHASE_NSL_GREEN = 2  # action 1 code 01
-PHASE_NSL_YELLOW = 3
-PHASE_EW_GREEN = 4  # action 2 code 10
-PHASE_EW_YELLOW = 5
-PHASE_EWL_GREEN = 6  # action 3 code 11
-PHASE_EWL_YELLOW = 7
-
-
 class Simulation:
     def __init__(self, Model, Memory, TrafficGen, gamma, max_steps, sumo_cmd, num_states, num_actions, training_epochs):
         self._Model = Model
