@@ -161,6 +161,9 @@ class Simulation:
         state = np.zeros(self._num_states)
         veh_list = traci.vehicle.getIDList()
 
+        # if len(veh_list):
+            # self._logger.debug(f"Vehicle retreived by traci. getIDList: {veh_list}")
+
         # For now, it's a mock
         for car_id in veh_list: 
             veh_speed = traci.vehicle.getSpeed()

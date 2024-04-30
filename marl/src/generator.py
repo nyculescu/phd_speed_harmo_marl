@@ -66,12 +66,12 @@ class TrafficGenerator:
                     veh_type = "coach_s"
                     veh_maxDepartSpeed = np.random.randint(20, 25)
                 
-                self._veh_depart = self._veh_depart + np.random.randint(0, 30.0)
+                self._veh_depart = self._veh_depart + np.random.randint(0, 30)
 
                 print(f"""\t<vehicle id="{veh_cnt}" \
 type="{veh_type}" \
 depart="{self._veh_depart}" \
-from="R0.E" to="R0.S" departSpeed="random" maxDepartSpeed="{veh_maxDepartSpeed}" \
+from="RLE" to="RLS" departSpeed="random" maxDepartSpeed="{veh_maxDepartSpeed}" \
 route="left_to_right" departLane="best">\
 \n\t\t<param key="has.friction.device" value="true"/>\
 \n\t</vehicle>""", file=routes)
