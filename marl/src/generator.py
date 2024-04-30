@@ -6,7 +6,7 @@ class TrafficGenerator:
     def __init__(self, max_steps, n_cars_generated):
         self._n_cars_generated = n_cars_generated  # how many cars per episode
         self._max_steps = max_steps
-        self._veh_depart = 60
+        self._veh_depart = 30
 
     def generate_routefile(self, seed):
         """
@@ -32,10 +32,10 @@ class TrafficGenerator:
         # produce the file for cars generation, one car per line
         with open(f"{os.getcwd()}\\marl\\configs\\sumo\\main_road_vehicles.rou.xml", "w") as routes:
             print("""<routes>
-	<vType accel="1.0" decel="4.5" id="normal_car_s" length="5.0" minGap="2.5" maxSpeed="42" sigma="0.5" desiredMaxSpeed="36"/>
-	<vType accel="1.5" decel="4.0" id="sporty_car_s" length="5.0" minGap="2.5" maxSpeed="67" sigma="0.6" desiredMaxSpeed="42"/>
-	<vType accel="1.0" decel="4.5" id="trailer_s" length="10.0" minGap="2.5" maxSpeed="30" sigma="0.5" desiredMaxSpeed="30"/>
-	<vType accel="1.0" decel="4.5" id="coach_s" length="15.0" minGap="2.5" maxSpeed="25" sigma="0.3" desiredMaxSpeed="25" />
+	<vType accel="1.0" decel="4.5" id="normal_car" length="5.0" minGap="2.5" maxSpeed="42" sigma="0.5" desiredMaxSpeed="36"/>
+	<vType accel="1.5" decel="4.0" id="sporty_car" length="5.0" minGap="2.5" maxSpeed="67" sigma="0.6" desiredMaxSpeed="42"/>
+	<vType accel="1.0" decel="4.5" id="trailer" length="10.0" minGap="2.5" maxSpeed="30" sigma="0.5" desiredMaxSpeed="30"/>
+	<vType accel="1.0" decel="4.5" id="coach" length="15.0" minGap="2.5" maxSpeed="25" sigma="0.3" desiredMaxSpeed="25" />
 
     <route id="left_to_right" edges="LRE LRL LRS"/>
                   """, file=routes)
@@ -54,16 +54,16 @@ class TrafficGenerator:
             for veh_cnt, step in enumerate(car_gen_steps):
                 veh_type_int = np.random.randint(0, 4)
                 if (veh_type_int == 0):
-                    veh_type = "normal_car_s"
+                    veh_type = "normal_car"
                     veh_maxDepartSpeed = np.random.randint(25, 28)
                 elif (veh_type_int == 1):
-                    veh_type = "sporty_car_s"
+                    veh_type = "sporty_car"
                     veh_maxDepartSpeed = np.random.randint(28, 32)
                 elif (veh_type_int == 2):
-                    veh_type = "trailer_s"
+                    veh_type = "trailer"
                     veh_maxDepartSpeed = np.random.randint(20, 26)
                 else:
-                    veh_type = "coach_s"
+                    veh_type = "coach"
                     veh_maxDepartSpeed = np.random.randint(20, 25)
                 
                 self._veh_depart = self._veh_depart + np.random.randint(0, 30)
@@ -75,6 +75,12 @@ from="RLE" to="RLS" departSpeed="random" maxDepartSpeed="{veh_maxDepartSpeed}" \
 route="left_to_right" departLane="best">\
 \n\t\t<param key="has.friction.device" value="true"/>\
 \n\t</vehicle>""", file=routes)
+
+#                 print(f"""\t<vehicle id="{veh_cnt}" \
+# type="{veh_type}" \
+# depart="{self._veh_depart}" \
+# from="RLE" to="RLS" departSpeed="random" maxDepartSpeed="{veh_maxDepartSpeed}" \
+# route="left_to_right" departLane="best"/>""", file=routes)
 
             print("""
 </routes>""", file=routes)
