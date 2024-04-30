@@ -1,0 +1,17 @@
+<configuration>
+
+    <input>
+        <net-file value="main_road.net.xml"/>
+        <route-files value="main_road_vehicles.rou.xml"/>
+        <additional-files value="var_speed.add.xml"/>
+    </input>
+
+    <time>
+      <begin value="0"/>
+    </time>
+
+    <processing>
+        <time-to-teleport value="-1"/>
+    </processing>
+
+</configuration>

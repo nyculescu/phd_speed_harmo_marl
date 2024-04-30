@@ -9,3 +9,4 @@ py311_env
 py312_env
 **/images/rl
 *.xlsx
+**/models/model_*

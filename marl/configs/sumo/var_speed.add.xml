@@ -1,0 +1,22 @@
+<!--
+    Properties:
+    Attr. Name	Value Type	Description
+    id	        id of the Variable Speed Signal element (user choice)
+    lanes	    ids (string list)	The ids of the lanes of the simulation network that shall be affected
+    file	    string	optional file in which the time and speed values are defined
+    time	    time (int)	Time in which the speed will be changed
+    speed	    speed (double)	New speed (if no value or a negative value is given, the speed will be reset to the original network value)
+-->
+
+<additional>
+    <variableSpeedSign id="vss0" lanes="LRL_0">  
+        <step time="0" speed="8.3"/>
+        <step time="1000" speed="19.4"/>
+        <step time="2000" speed="13.8"/>
+    </variableSpeedSign>
+    <variableSpeedSign id="vss0" lanes="LRL_1">  
+        <step time="0" speed="8.3"/>
+        <step time="1000" speed="25"/>
+        <step time="2000" speed="13.8"/>
+    </variableSpeedSign>
+</additional>

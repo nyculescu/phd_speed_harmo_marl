@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- generated on 2024-04-29 15:38:15 by Eclipse SUMO netedit Version 1.19.0
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
+
+    <input>
+        <sumo-net-file value="D:\phd_ws\speed_harmo\phd_speed_harmo_v3\marl\configs\sumo\main_road.net.xml"/>
+    </input>
+
+    <output>
+        <output-file value="D:\phd_ws\speed_harmo\phd_speed_harmo_v3\marl\configs\sumo\main_road.net.xml"/>
+        <output.street-names value="true"/>
+    </output>
+
+    <processing>
+        <geometry.min-radius.fix.railways value="false"/>
+        <geometry.max-grade.fix value="false"/>
+        <offset.disable-normalization value="true"/>
+        <lefthand value="0"/>
+    </processing>
+
+    <junctions>
+        <no-internal-links value="true"/>
+        <no-turnarounds value="true"/>
+        <junctions.corner-detail value="5"/>
+        <junctions.limit-turn-speed value="5.50"/>
+        <rectangular-lane-cut value="0"/>
+    </junctions>
+
+    <pedestrian>
+        <walkingareas value="0"/>
+    </pedestrian>
+
+</configuration>
+-->
+
+<net version="1.16" junctionCornerDetail="5" limitTurnSpeed="5.50" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <location netOffset="0.00,0.00" convBoundary="-200.00,0.00,0.00,0.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
+
+    <edge id="LRE" from="DW" to="J0" name="entry" priority="-1" length="6.62">
+        <lane id="LRE_0" index="0" speed="13.89" length="6.62" shape="-200.00,-4.80 -193.38,-4.80"/>
+        <lane id="LRE_1" index="1" speed="13.89" length="6.62" shape="-200.00,-1.60 -193.38,-1.60"/>
+    </edge>
+    <edge id="LRL" from="J0" to="J1" priority="-1">
+        <lane id="LRL_0" index="0" speed="13.89" length="186.78" shape="-193.38,-4.80 -6.60,-4.80"/>
+        <lane id="LRL_1" index="1" speed="13.89" length="186.78" shape="-193.38,-1.60 -6.60,-1.60"/>
+    </edge>
+    <edge id="LRS" from="J1" to="TL" name="exit" priority="-1">
+        <lane id="LRS_0" index="0" speed="13.89" length="6.60" shape="-6.60,-4.80 0.00,-4.80"/>
+        <lane id="LRS_1" index="1" speed="13.89" length="6.60" shape="-6.60,-1.60 0.00,-1.60"/>
+    </edge>
+
+    <edge id="RLS" from="J0" to="DW" priority="-1">
+        <lane id="RLS_0" index="0" speed="13.89" length="6.62" shape="-193.38,4.80 -200.00,4.80"/>
+        <lane id="RLS_1" index="1" speed="13.89" length="6.62" shape="-193.38,1.60 -200.00,1.60"/>
+    </edge>
+    <edge id="RLE" from="TL" to="J1" priority="-1" length="6.60">
+        <lane id="RLE_0" index="0" speed="13.89" length="6.60" shape="0.00,4.80 -6.60,4.80"/>
+        <lane id="RLE_1" index="1" speed="13.89" length="6.60" shape="0.00,1.60 -6.60,1.60"/>
+    </edge>
+    <edge id="RLL" from="J1" to="J0" name="longEdge" priority="-1" length="186.78">
+        <lane id="RLL_0" index="0" speed="13.89" length="186.78" shape="-6.60,4.80 -193.38,4.80"/>
+        <lane id="RLL_1" index="1" speed="13.89" length="186.78" shape="-6.60,1.60 -193.38,1.60"/>
+    </edge>
+
+    <junction id="DW" type="dead_end" x="-200.00" y="0.00" incLanes="RLS_0 RLS_1" intLanes="" shape="-200.00,0.00 -200.00,6.40 -200.00,0.00"/>
+    <junction id="J0" type="priority" x="-193.38" y="0.00" incLanes="RLL_0 RLL_1 LRE_0 LRE_1" intLanes="" shape="-193.38,6.40 -193.38,-6.40 -193.38,6.40">
+        <request index="0" response="0000" foes="0000"/>
+        <request index="1" response="0000" foes="0000"/>
+        <request index="2" response="0000" foes="0000"/>
+        <request index="3" response="0000" foes="0000"/>
+    </junction>
+    <junction id="J1" type="priority" x="-6.60" y="0.00" incLanes="RLE_0 RLE_1 LRL_0 LRL_1" intLanes="" shape="-6.60,6.40 -6.60,-6.40 -6.60,6.40">
+        <request index="0" response="0000" foes="0000"/>
+        <request index="1" response="0000" foes="0000"/>
+        <request index="2" response="0000" foes="0000"/>
+        <request index="3" response="0000" foes="0000"/>
+    </junction>
+    <junction id="TL" type="dead_end" x="0.00" y="0.00" incLanes="LRS_0 LRS_1" intLanes="" shape="0.00,0.00 0.00,-6.40 0.00,0.00"/>
+
+    <connection from="LRE" to="LRL" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="LRE" to="LRL" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from="LRL" to="LRS" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="LRL" to="LRS" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from="RLE" to="RLL" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="RLE" to="RLL" fromLane="1" toLane="1" dir="s" state="M"/>
+    <connection from="RLL" to="RLS" fromLane="0" toLane="0" dir="s" state="M"/>
+    <connection from="RLL" to="RLS" fromLane="1" toLane="1" dir="s" state="M"/>
+
+</net>
