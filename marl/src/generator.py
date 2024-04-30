@@ -71,8 +71,10 @@ class TrafficGenerator:
                 print(f"""\t<vehicle id="{veh_cnt}" \
 type="{veh_type}" \
 depart="{self._veh_depart}" \
-from="RLE" to="RLS" departSpeed="random" maxDepartSpeed="{veh_maxDepartSpeed}" \
-route="left_to_right" departLane="best">\
+departSpeed="random" \
+maxDepartSpeed="{veh_maxDepartSpeed}" \
+route="left_to_right" \
+departLane="best">\
 \n\t\t<param key="has.friction.device" value="true"/>\
 \n\t</vehicle>""", file=routes)
 
