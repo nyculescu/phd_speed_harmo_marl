@@ -3,6 +3,7 @@ import numpy as np
 import random
 import timeit
 import os
+import logging
 
 class Simulation:
     def __init__(self, model, memory, trafficGen, gamma, max_steps, sumo_cmd, num_states, num_actions, training_epochs, num_episodes):
@@ -21,6 +22,8 @@ class Simulation:
         self._training_epochs = training_epochs
         self._num_episodes = num_episodes
 
+        logging.basicConfig(level=logging.DEBUG)
+        self._logger = logging.getLogger(__name__)
 
     def run(self, episode):
         """
