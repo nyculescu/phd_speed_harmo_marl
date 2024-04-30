@@ -43,11 +43,10 @@ class Simulation:
         old_state = -1
         old_action = -1
 
-        epsilon = self._epsilon_greedy_policy(episode, epsilon)
+        epsilon = self._epsilon_greedy_policy(episode)
 
         while self._step < self._max_steps:
 
-            # get current state of the intersection
             current_state = self._get_state()
 
             # calculate reward of previous action: (change in cumulative waiting time between actions)
@@ -86,7 +85,7 @@ class Simulation:
 
         return simulation_time, training_time
 
-    def _epsilon_greedy_policy(self, episode, epsilon=0):
+    def _epsilon_greedy_policy(self, episode):
         """
         The epsilon-greedy policy is used to determine the balance between exploring new actions and 
         exploiting known actions that give high rewards. The value of epsilon represents the probability 
