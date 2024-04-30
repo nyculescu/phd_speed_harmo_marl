@@ -5,10 +5,10 @@ import timeit
 import os
 
 class Simulation:
-    def __init__(self, Model, Memory, TrafficGen, gamma, max_steps, sumo_cmd, num_states, num_actions, training_epochs, num_episodes):
-        self._Model = Model
-        self._Memory = Memory
-        self._TrafficGen = TrafficGen
+    def __init__(self, model, memory, trafficGen, gamma, max_steps, sumo_cmd, num_states, num_actions, training_epochs, num_episodes):
+        self._model = model
+        self._memory = memory
+        self._trafficGen = trafficGen
         self._gamma = gamma
         self._step = 0
         self._sumo_cmd = sumo_cmd
@@ -29,7 +29,7 @@ class Simulation:
         start_time = timeit.default_timer()
 
         # first, generate the route file for this simulation and set up sumo
-        self._TrafficGen.generate_routefile(seed=episode)
+        self._trafficGen.generate_routefile(seed=episode)
         traci.start(self._sumo_cmd)
         print("Simulating...")
 
@@ -43,7 +43,7 @@ class Simulation:
         old_state = -1
         old_action = -1
 
-        epsilon = 1.0 - (episode / self._num_episodes)  # set the epsilon for this episode according to epsilon-greedy policy
+        epsilon = self._epsilon_greedy_policy(episode, epsilon)
 
         while self._step < self._max_steps:
 
@@ -57,11 +57,10 @@ class Simulation:
 
             # saving the data into the memory
             if self._step != 0:
-                self._Memory.add_sample((old_state, old_action, reward, current_state))
+                self._memory.add_sample((old_state, old_action, reward, current_state))
 
             # choose the light phase to activate, based on the current state of the intersection
             action = self._choose_action(current_state, epsilon)
-
 
             # saving variables for later & accumulate reward
             old_state = current_state
@@ -87,6 +86,15 @@ class Simulation:
 
         return simulation_time, training_time
 
+    def _epsilon_greedy_policy(self, episode, epsilon=0):
+        """
+        The epsilon-greedy policy is used to determine the balance between exploring new actions and 
+        exploiting known actions that give high rewards. The value of epsilon represents the probability 
+        of choosing to explore (i.e., selecting a random action). As the training progresses (i.e., 
+        as the number of episodes increases), this function decreases the value of epsilon. The agent 
+        will explore less and exploit more as it becomes more confident in the actions that yield higher rewards.
+        """
+        return 1.0 - (episode / self._num_episodes)
 
     def _simulate(self, steps_todo):
         """
@@ -129,7 +137,7 @@ class Simulation:
         if random.random() < epsilon:
             return random.randint(0, self._num_actions - 1) # random action
         else:
-            return np.argmax(self._Model.predict_one(state)) # the best action given the current state
+            return np.argmax(self._model.predict_one(state)) # the best action given the current state
 
     def _set_safe_speed_phase(self, old_action):
         print("_set_safe_speed_phase dummy | use traci module")
@@ -163,15 +171,15 @@ class Simulation:
         """
         Retrieve a group of samples from the memory and for each of them update the learning equation, then train
         """
-        batch = self._Memory.get_samples(self._Model.batch_size)
+        batch = self._memory.get_samples(self._model.batch_size)
 
         if len(batch) > 0:  # if the memory is full enough
             states = np.array([val[0] for val in batch])  # extract states from the batch
             next_states = np.array([val[3] for val in batch])  # extract next states from the batch
 
             # prediction
-            q_s_a = self._Model.predict_batch(states)  # predict Q(state), for every sample
-            q_s_a_d = self._Model.predict_batch(next_states)  # predict Q(next_state), for every sample
+            q_s_a = self._model.predict_batch(states)  # predict Q(state), for every sample
+            q_s_a_d = self._model.predict_batch(next_states)  # predict Q(next_state), for every sample
 
             # setup training arrays
             x = np.zeros((len(batch), self._num_states))
@@ -184,7 +192,7 @@ class Simulation:
                 x[i] = state
                 y[i] = current_q  # Q(state) that includes the updated action value
 
-            self._Model.train_batch(x, y)  # train the NN
+            self._model.train_batch(x, y)  # train the NN
 
 
     def _save_episode_stats(self):

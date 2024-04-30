@@ -27,7 +27,6 @@ class TrainModel:
         self._learning_rate = learning_rate
         self._model = self._build_model(num_layers, width)
 
-
     def _build_model(self, num_layers, width):
         """
         Build and compile a fully connected deep neural network
@@ -41,7 +40,6 @@ class TrainModel:
         model = keras.Model(inputs=inputs, outputs=outputs, name='my_model')
         model.compile(loss=losses.mean_squared_error, optimizer=Adam(lr=self._learning_rate))
         return model
-    
 
     def predict_one(self, state):
         """
@@ -50,20 +48,17 @@ class TrainModel:
         state = np.reshape(state, [1, self._input_dim])
         return self._model.predict(state)
 
-
     def predict_batch(self, states):
         """
         Predict the action values from a batch of states
         """
         return self._model.predict(states)
 
-
     def train_batch(self, states, q_sa):
         """
         Train the nn using the updated q-values
         """
         self._model.fit(states, q_sa, epochs=1, verbose=0)
-
 
     def save_model(self, path):
         """
@@ -72,16 +67,13 @@ class TrainModel:
         self._model.save(os.path.join(path, 'trained_model.h5'))
         plot_model(self._model, to_file=os.path.join(path, 'model_structure.png'), show_shapes=True, show_layer_names=True)
 
-
     @property
     def input_dim(self):
         return self._input_dim
 
-
     @property
     def output_dim(self):
         return self._output_dim
-
 
     @property
     def batch_size(self):
