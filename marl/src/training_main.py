@@ -19,7 +19,7 @@ if __name__ == "__main__":
     sumo_cmd = set_sumo(config['gui'], config['sumocfg_file_name'], config['max_steps'])
     path = set_train_path(config['models_path_name'])
 
-    Model = TrainModel(
+    model = TrainModel(
         config['num_layers'], 
         config['width_layers'], 
         config['batch_size'], 
@@ -28,31 +28,31 @@ if __name__ == "__main__":
         output_dim=config['num_actions']
     )
 
-    Memory = Memory(
+    memory = Memory(
         config['memory_size_max'], 
         config['memory_size_min']
     )
 
-    TrafficGen = TrafficGenerator(
+    trafficGen = TrafficGenerator(
         config['max_steps'], 
         config['n_cars_generated']
     )
 
-    Visualization = Visualization(
+    visualization = Visualization(
         path, 
         dpi=96
     )
-    # Model, Memory, TrafficGen, gamma, max_steps, sumo_cmd, num_states, num_actions, training_epochs
-    Simulation = Simulation(
-        Model,
-        Memory,
-        TrafficGen,
-        config['gamma'],
-        config['max_steps'],
+
+    simulation = Simulation(
+        model,
+        memory,
+        trafficGen,
+        config['gamma'], # gamma param. of the Bellman equation
+        config['max_steps'], # the duration of each episode. 1 step = 1 sec.
         sumo_cmd,
-        config['num_states'],
-        config['num_actions'],
-        config['training_epochs']
+        config['num_states'], #  the size of the state of the env from the agent perspective (a change here also requires algorithm changes).
+        config['num_actions'], # the number of possible actions (a change here also requires algorithm changes).
+        config['training_epochs'] # the number of training iterations executed at the end of each episode.
     )
     
     episode = 0
@@ -61,7 +61,7 @@ if __name__ == "__main__":
     while episode < config['total_episodes']:
         print('\n----- Episode', str(episode+1), 'of', str(config['total_episodes']))
         epsilon = 1.0 - (episode / config['total_episodes'])  # set the epsilon for this episode according to epsilon-greedy policy
-        simulation_time, training_time = Simulation.run(episode, epsilon)  # run the simulation
+        simulation_time, training_time = simulation.run(episode, epsilon)  # run the simulation
         print('Simulation time:', simulation_time, 's - Training time:', training_time, 's - Total:', round(simulation_time+training_time, 1), 's')
         episode += 1
         winsound.Beep(440, 700)
@@ -70,10 +70,10 @@ if __name__ == "__main__":
     print("----- End time:", datetime.datetime.now())
     print("----- Session info saved at:", path)
 
-    Model.save_model(path)
+    model.save_model(path)
 
     copyfile(src=f'{os.getcwd()}\\marl\\configs\\training_settings.ini', dst=os.path.join(path, 'training_settings.ini'))
 
-    Visualization.save_data_and_plot(data=Simulation.reward_store, filename='reward', xlabel='Episode', ylabel='Cumulative negative reward')
-    Visualization.save_data_and_plot(data=Simulation.cumulative_wait_store, filename='delay', xlabel='Episode', ylabel='Cumulative delay (s)')
-    Visualization.save_data_and_plot(data=Simulation.avg_queue_length_store, filename='queue', xlabel='Episode', ylabel='Average queue length (vehicles)')
+    visualization.save_data_and_plot(data=simulation.reward_store, filename='reward', xlabel='Episode', ylabel='Cumulative negative reward')
+    visualization.save_data_and_plot(data=simulation.cumulative_wait_store, filename='delay', xlabel='Episode', ylabel='Cumulative delay (s)')
+    visualization.save_data_and_plot(data=simulation.avg_queue_length_store, filename='queue', xlabel='Episode', ylabel='Average queue length (vehicles)')

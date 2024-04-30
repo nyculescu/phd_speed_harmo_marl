@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- generated on 2024-04-29 15:38:15 by Eclipse SUMO netedit Version 1.19.0
+<!-- generated on 2024-04-30 20:48:26 by Eclipse SUMO netedit Version 1.19.0
 <configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/neteditConfiguration.xsd">
 
     <input>
@@ -38,30 +38,29 @@
 
     <location netOffset="0.00,0.00" convBoundary="-200.00,0.00,0.00,0.00" origBoundary="-10000000000.00,-10000000000.00,10000000000.00,10000000000.00" projParameter="!"/>
 
-    <edge id="LRE" from="DW" to="J0" name="entry" priority="-1" length="6.62">
-        <lane id="LRE_0" index="0" speed="13.89" length="6.62" shape="-200.00,-4.80 -193.38,-4.80"/>
-        <lane id="LRE_1" index="1" speed="13.89" length="6.62" shape="-200.00,-1.60 -193.38,-1.60"/>
+    <edge id="LRE" from="DW" to="J0" name="entry" priority="-1" length="10.00">
+        <lane id="LRE_0" index="0" speed="13.89" length="10.00" shape="-200.00,-4.80 -193.38,-4.80"/>
+        <lane id="LRE_1" index="1" speed="13.89" length="10.00" shape="-200.00,-1.60 -193.38,-1.60"/>
     </edge>
-    <edge id="LRL" from="J0" to="J1" priority="-1">
-        <lane id="LRL_0" index="0" speed="13.89" length="186.78" shape="-193.38,-4.80 -6.60,-4.80"/>
-        <lane id="LRL_1" index="1" speed="13.89" length="186.78" shape="-193.38,-1.60 -6.60,-1.60"/>
+    <edge id="LRL" from="J0" to="J1" priority="-1" length="100000.00">
+        <lane id="LRL_0" index="0" speed="13.89" length="100000.00" shape="-193.38,-4.80 -6.60,-4.80"/>
+        <lane id="LRL_1" index="1" speed="13.89" length="100000.00" shape="-193.38,-1.60 -6.60,-1.60"/>
     </edge>
-    <edge id="LRS" from="J1" to="TL" name="exit" priority="-1">
-        <lane id="LRS_0" index="0" speed="13.89" length="6.60" shape="-6.60,-4.80 0.00,-4.80"/>
-        <lane id="LRS_1" index="1" speed="13.89" length="6.60" shape="-6.60,-1.60 0.00,-1.60"/>
+    <edge id="LRS" from="J1" to="TL" name="exit" priority="-1" length="10.00">
+        <lane id="LRS_0" index="0" speed="13.89" length="10.00" shape="-6.60,-4.80 0.00,-4.80"/>
+        <lane id="LRS_1" index="1" speed="13.89" length="10.00" shape="-6.60,-1.60 0.00,-1.60"/>
     </edge>
-
-    <edge id="RLS" from="J0" to="DW" priority="-1">
-        <lane id="RLS_0" index="0" speed="13.89" length="6.62" shape="-193.38,4.80 -200.00,4.80"/>
-        <lane id="RLS_1" index="1" speed="13.89" length="6.62" shape="-193.38,1.60 -200.00,1.60"/>
+    <edge id="RLE" from="TL" to="J1" priority="-1" length="10.00">
+        <lane id="RLE_0" index="0" speed="13.89" length="10.00" shape="0.00,4.80 -6.60,4.80"/>
+        <lane id="RLE_1" index="1" speed="13.89" length="10.00" shape="0.00,1.60 -6.60,1.60"/>
     </edge>
-    <edge id="RLE" from="TL" to="J1" priority="-1" length="6.60">
-        <lane id="RLE_0" index="0" speed="13.89" length="6.60" shape="0.00,4.80 -6.60,4.80"/>
-        <lane id="RLE_1" index="1" speed="13.89" length="6.60" shape="0.00,1.60 -6.60,1.60"/>
+    <edge id="RLL" from="J1" to="J0" name="longEdge" priority="-1" length="100000.00">
+        <lane id="RLL_0" index="0" speed="13.89" length="100000.00" shape="-6.60,4.80 -193.38,4.80"/>
+        <lane id="RLL_1" index="1" speed="13.89" length="100000.00" shape="-6.60,1.60 -193.38,1.60"/>
     </edge>
-    <edge id="RLL" from="J1" to="J0" name="longEdge" priority="-1" length="186.78">
-        <lane id="RLL_0" index="0" speed="13.89" length="186.78" shape="-6.60,4.80 -193.38,4.80"/>
-        <lane id="RLL_1" index="1" speed="13.89" length="186.78" shape="-6.60,1.60 -193.38,1.60"/>
+    <edge id="RLS" from="J0" to="DW" priority="-1" length="10.00">
+        <lane id="RLS_0" index="0" speed="13.89" length="10.00" shape="-193.38,4.80 -200.00,4.80"/>
+        <lane id="RLS_1" index="1" speed="13.89" length="10.00" shape="-193.38,1.60 -200.00,1.60"/>
     </edge>
 
     <junction id="DW" type="dead_end" x="-200.00" y="0.00" incLanes="RLS_0 RLS_1" intLanes="" shape="-200.00,0.00 -200.00,6.40 -200.00,0.00"/>

@@ -11,6 +11,13 @@ from tensorflow.keras.optimizers import Adam
 from tensorflow.keras.utils import plot_model
 from tensorflow.keras.models import load_model
 
+"""
+The Model class defines everything about the deep neural network, 
+and it also contains some functions used to train the network and predict the outputs. 
+In the model.py file, two different model classes are defined: 
+* one used only during the training and 
+* one used only during the testing.
+"""
 
 class TrainModel:
     def __init__(self, num_layers, width, batch_size, learning_rate, input_dim, output_dim):

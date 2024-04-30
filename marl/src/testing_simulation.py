@@ -4,26 +4,13 @@ import random
 import timeit
 import os
 
-# phase codes based on environment.net.xml
-PHASE_NS_GREEN = 0  # action 0 code 00
-PHASE_NS_YELLOW = 1
-PHASE_NSL_GREEN = 2  # action 1 code 01
-PHASE_NSL_YELLOW = 3
-PHASE_EW_GREEN = 4  # action 2 code 10
-PHASE_EW_YELLOW = 5
-PHASE_EWL_GREEN = 6  # action 3 code 11
-PHASE_EWL_YELLOW = 7
-
-
 class Simulation:
-    def __init__(self, Model, TrafficGen, sumo_cmd, max_steps, green_duration, yellow_duration, num_states, num_actions):
+    def __init__(self, Model, TrafficGen, sumo_cmd, max_steps, num_states, num_actions):
         self._Model = Model
         self._TrafficGen = TrafficGen
         self._step = 0
         self._sumo_cmd = sumo_cmd
         self._max_steps = max_steps
-        self._green_duration = green_duration
-        self._yellow_duration = yellow_duration
         self._num_states = num_states
         self._num_actions = num_actions
         self._reward_episode = []
@@ -60,21 +47,14 @@ class Simulation:
             # choose the light phase to activate, based on the current state of the intersection
             action = self._choose_action(current_state)
 
-            # if the chosen phase is different from the last phase, activate the yellow phase
-            if self._step != 0 and old_action != action:
-                self._set_yellow_phase(old_action)
-                self._simulate(self._yellow_duration)
-
-            # execute the phase selected before
-            self._set_green_phase(action)
-            self._simulate(self._green_duration)
-
             # saving variables for later & accumulate reward
             old_action = action
             old_total_wait = current_total_wait
 
             self._reward_episode.append(reward)
-
+            self._step += 1
+            
+        self._step += 1
         #print("Total reward:", np.sum(self._reward_episode))
         traci.close()
         simulation_time = round(timeit.default_timer() - start_time, 1)
@@ -134,7 +114,6 @@ class Simulation:
         """
         Activate the correct green light combination in sumo
         """
-
 
         if action_number == 0:
             traci.trafficlight.setPhase("TL", PHASE_NS_GREEN)

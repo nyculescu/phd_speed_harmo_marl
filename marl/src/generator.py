@@ -6,7 +6,7 @@ class TrafficGenerator:
     def __init__(self, max_steps, n_cars_generated):
         self._n_cars_generated = n_cars_generated  # how many cars per episode
         self._max_steps = max_steps
-        self._veh_depart = 0
+        self._veh_depart = 60
 
     def generate_routefile(self, seed):
         """
@@ -66,7 +66,7 @@ class TrafficGenerator:
                     veh_type = "coach_s"
                     veh_maxDepartSpeed = np.random.randint(20, 25)
                 
-                self._veh_depart = self._veh_depart + np.random.randint(0, 20.0)
+                self._veh_depart = self._veh_depart + np.random.randint(0, 30.0)
 
                 print(f"""\t<vehicle id="{veh_cnt}" \
 type="{veh_type}" \

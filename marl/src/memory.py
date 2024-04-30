@@ -1,5 +1,10 @@
 import random
 
+"""
+The Memory class handle the memorization for the experience replay mechanism. 
+A function adds a sample into the memory, while another function retrieves a batch of samples from the memory.
+"""
+
 class Memory:
     def __init__(self, size_max, size_min):
         self._samples = []
