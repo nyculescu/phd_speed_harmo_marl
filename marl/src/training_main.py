@@ -25,7 +25,7 @@ if __name__ == "__main__":
         config['batch_size'], # number of training examples used in one iteration
         config['learning_rate'], # influences the speed and quality of learning. A lower learning_rate might slow down the learning process but can lead to more precise adjustments in the agent's strategy.
         input_dim=config['num_states'], 
-        output_dim=config['num_actions']
+        output_dim=config['actions']
     )
 
     """
@@ -54,7 +54,7 @@ if __name__ == "__main__":
         config['max_steps'], # the duration of each episode. 1 step = 1 sec.
         sumo_cmd,
         config['num_states'], #  the size of the state of the env from the agent perspective (a change here also requires algorithm changes).
-        config['num_actions'], # the number of possible actions (a change here also requires algorithm changes).
+        config['actions'], # the number of possible actions (a change here also requires algorithm changes).
         config['training_epochs'], # the number of training iterations executed at the end of each episode.
         config['total_episodes'] # number of episodes (or trials) the agent will undergo during training
     )

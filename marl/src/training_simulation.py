@@ -6,7 +6,7 @@ import os
 import logging
 
 class Simulation:
-    def __init__(self, model, memory, trafficGen, gamma, max_steps, sumo_cmd, num_states, num_actions, training_epochs, num_episodes):
+    def __init__(self, model, memory, trafficGen, gamma, max_steps, sumo_cmd, num_states, actions, training_epochs, num_episodes):
         self._model = model
         self._memory = memory
         self._trafficGen = trafficGen
@@ -15,7 +15,8 @@ class Simulation:
         self._sumo_cmd = sumo_cmd
         self._max_steps = max_steps
         self._num_states = num_states
-        self._num_actions = num_actions
+        self._num_actions = len(actions)
+        self._actions = actions
         self._reward_store = []
         self._cumulative_wait_store = []
         self._avg_queue_length_store = []

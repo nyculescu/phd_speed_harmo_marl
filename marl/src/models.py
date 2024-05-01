@@ -22,7 +22,7 @@ In the model.py file, two different model classes are defined:
 class TrainModel:
     def __init__(self, num_layers, width, batch_size, learning_rate, input_dim, output_dim):
         self._input_dim = input_dim
-        self._output_dim = output_dim
+        self._output_dim = len(output_dim)
         self._batch_size = batch_size
         self._learning_rate = learning_rate
         self._model = self._build_model(num_layers, width)

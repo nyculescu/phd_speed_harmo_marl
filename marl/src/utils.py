@@ -3,6 +3,7 @@ from sumolib import checkBinary
 import os
 import sys
 import logging
+import ast
 
 def import_train_configuration(config_file):
     """
@@ -27,7 +28,7 @@ def import_train_configuration(config_file):
         config['memory_size_min'] = content['memory'].getint('memory_size_min')
         config['memory_size_max'] = content['memory'].getint('memory_size_max')
         config['num_states'] = content['agent'].getint('num_states')
-        config['num_actions'] = content['agent'].getint('num_actions')
+        config['actions'] = ast.literal_eval(content['agent'].get('actions'))
         config['gamma'] = content['agent'].getfloat('gamma')
         config['models_path_name'] = content['dir']['models_path_name']
         config['sumocfg_file_name'] = content['dir']['sumocfg_file_name']
