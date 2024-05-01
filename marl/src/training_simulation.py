@@ -64,6 +64,9 @@ class Simulation:
             # choose the light phase to activate, based on the current state of the intersection
             action = self._choose_action(current_state, epsilon)
 
+            if self._step != 0 and old_action != action:
+                traci.simulationStep()  # simulate 1 step in sumo
+
             # saving variables for later & accumulate reward
             old_state = current_state
             old_action = action
@@ -118,16 +121,16 @@ class Simulation:
         """
         Retrieve the waiting time of every car in the incoming roads
         """
-        incoming_roads = ["E2TL", "N2TL", "W2TL", "S2TL"]
-        car_list = traci.vehicle.getIDList()
-        for car_id in car_list:
-            wait_time = traci.vehicle.getAccumulatedWaitingTime(car_id)
-            road_id = traci.vehicle.getRoadID(car_id)  # get the road id where the car is located
+        incoming_roads = ["LRE", "LRL", "LRS"]
+        veh_list = traci.vehicle.getIDList()
+        for veh_id in veh_list:
+            wait_time = traci.vehicle.getAccumulatedWaitingTime(veh_id)
+            road_id = traci.vehicle.getRoadID(veh_id)  # get the road id where the car is located
             if road_id in incoming_roads:  # consider only the waiting times of cars in incoming roads
-                self._waiting_times[car_id] = wait_time
+                self._waiting_times[veh_id] = wait_time
             else:
-                if car_id in self._waiting_times: # a car that was tracked has cleared the intersection
-                    del self._waiting_times[car_id] 
+                if veh_id in self._waiting_times: # a car that was tracked has cleared the intersection
+                    del self._waiting_times[veh_id] 
         total_waiting_time = sum(self._waiting_times.values())
         return total_waiting_time
 
@@ -166,9 +169,9 @@ class Simulation:
 
         # For now, it's a mock
         for car_id in veh_list: 
-            veh_speed = traci.vehicle.getSpeed()
-            veh_position = traci.vehicle.getPosition()
-            state[veh_position] = 1
+            veh_speed = traci.vehicle.getSpeed(car_id)
+            veh_position = traci.vehicle.getPosition(car_id)
+            # state[veh_position] = 1
         return state
 
 
