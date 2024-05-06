@@ -15,7 +15,7 @@ import winsound
 
 if __name__ == "__main__":
 
-    config = import_train_configuration(config_file=f'{os.getcwd()}\\marl\\configs\\training_settings.ini')
+    config = import_train_configuration(config_file=f'{os.getcwd()}\\configs\\training_settings.ini')
     sumo_cmd = set_sumo(config['gui'], config['sumocfg_file_name'], config['max_steps'])
     path = set_train_path(config['models_path_name'])
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     model.save_model(path)
 
-    copyfile(src=f'{os.getcwd()}\\marl\\configs\\training_settings.ini', dst=os.path.join(path, 'training_settings.ini'))
+    copyfile(src=f'{os.getcwd()}\\configs\\training_settings.ini', dst=os.path.join(path, 'training_settings.ini'))
 
     visualization.save_data_and_plot(data=simulation.reward_store, filename='reward', xlabel='Episode', ylabel='Cumulative negative reward')
     visualization.save_data_and_plot(data=simulation.cumulative_wait_store, filename='delay', xlabel='Episode', ylabel='Cumulative delay (s)')

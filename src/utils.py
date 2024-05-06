@@ -4,6 +4,9 @@ import os
 import sys
 import logging
 import ast
+import traci
+import numpy as np
+from enum import Enum
 
 def import_train_configuration(config_file):
     """
@@ -82,7 +85,7 @@ def set_sumo(gui, sumocfg_file_name, max_steps):
         sumoBinary = checkBinary('sumo-gui')
  
     # setting the cmd command to run sumo at simulation time
-    sumo_cmd = [sumoBinary, "-c", os.path.join(f'{os.getcwd()}\\marl\\configs\\sumo', sumocfg_file_name), "--no-step-log", "true", "--waiting-time-memory", str(max_steps)]
+    sumo_cmd = [sumoBinary, "-c", os.path.join(f'{os.getcwd()}\\configs\\sumo', sumocfg_file_name), "--no-step-log", "true", "--waiting-time-memory", str(max_steps)]
 
     return sumo_cmd
 
@@ -117,3 +120,65 @@ def set_test_path(models_path_name, model_n):
         return model_folder_path, plot_path
     else: 
         sys.exit('The model number specified does not exist in the models folder')
+
+def get_vehicle_speed_at_point(vehicle_id, radar_x, radar_y, tolerance=5):
+    """
+    Retrieves the speed of a vehicle when it passes a specific point (e.g., a speed camera).
+
+    Args:
+    vehicle_id (str): The ID of the vehicle.
+    camera_x (float): The x-coordinate of the speed camera.
+    camera_y (float): The y-coordinate of the speed camera.
+    tolerance (float): The distance tolerance to consider the vehicle at the camera point.
+
+    Returns:
+    float: The speed of the vehicle at the camera point in m/s, or None if the vehicle is not at the point.
+    """
+    try:
+        # Get the current position of the vehicle
+        x, y = traci.vehicle.getPosition(vehicle_id)
+
+        # Calculate the distance from the vehicle to the camera
+        distance = ((x - radar_x) ** 2 + (y - radar_y) ** 2) ** 0.5
+
+        # Check if the vehicle is within the tolerance distance of the camera
+        if distance <= tolerance:
+            # Get the speed of the vehicle
+            speed = traci.vehicle.getSpeed(vehicle_id)
+            return speed
+        else:
+            return None
+
+    except Exception as e:
+        print(f"Error retrieving speed: {e}")
+        return None
+
+class IncidentType(Enum):
+    unexpected_brake = 1
+    unexpected_lane_change = 2
+    aggressive_lane_change = 3
+    reduce_headway = 4
+
+def provoke_incident(vehicle_id, incident_type):
+    incidentProvoked = False
+
+    if incident_type == IncidentType.unexpected_brake:
+        # Unexpected brake
+        traci.vehicle.setSpeed(vehicle_id, np.random.randint(0, 15))
+        incidentProvoked = True
+    elif incident_type == IncidentType.unexpected_lane_change:
+        # Force an unsafe lane change
+        traci.vehicle.changeLane(vehicle_id, 1, 10)  # Change to lane 1 immediately
+        incidentProvoked = True
+    elif incident_type == IncidentType.aggressive_lane_change:
+        # Disable safety checks
+        traci.vehicle.setSpeedMode(vehicle_id, 0)  # Disable all safety checks
+        traci.vehicle.setLaneChangeMode(vehicle_id, 0)  # Allow aggressive lane changing
+        incidentProvoked = True
+    elif incident_type == IncidentType.reduce_headway:
+        # Adjust car-following model parameters to reduce safety
+        # traci.vehicle.setParameter(vehicle_id, "carFollowModel.tau", "0.5")  # Reduce headway time
+        # incidentProvoked = True
+        pass # FIXME: do nothing for now, it will be refined in the future
+    else:
+        return incidentProvoked
