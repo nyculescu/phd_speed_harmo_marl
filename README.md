@@ -1,4 +1,4 @@
-# phd_speed_harmo_v3
+# phd_speed_harmo_marl
 
 ## Deep Q-Learning Agent
 
@@ -23,9 +23,9 @@ Reward: **[tbd]**
 
 Learning mechanism: the agent make use of the Q-learning equation Q(s,a) = reward + gamma • max Q'(s',a') to update the action values and a deep neural network to learn the state-action function. The neural network is fully connected with **[tbd]** neurons as input (the state), **[tbd]** hidden layers of **[tbd]** neurons each, and the output layers with **[tbd]** neurons representing the **[tbd]** possible actions. Also, an experience replay mechanism is implemented: the experience of the agent is stored in a memory and, at the end of each episode, multiple batches of randomized samples are extracted from the memory and used to train the neural network, once the action values have been updated with the Q-learning equation.
 
-## Component version
+## Components versions
 
-* Python 3.10.10
+* Python 3.7.9
   - keras
   - gymnasium
 * TensorFlow 2.10
